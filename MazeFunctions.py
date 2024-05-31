@@ -5,7 +5,7 @@ from pathlib import Path
 import random
 from collections import deque
 import matplotlib.pyplot as plt
-import scipy.sparse as sparse
+
 
 def load_mazes()-> list|int:
     
@@ -27,34 +27,7 @@ def load_mazes()-> list|int:
 
 
 
-def construct_realIncidence_matrix(mazes: list) -> list:
-    A = sparse.lil_matrix((n*n, n*n))
-    for i in range(n):
-        for j in range(n):
-            A[i*n+j, i*n+j] = 1
-            if i == 0 or i == n-1 or j == n-1 or j == 0:
-                if i == j or i == n-j-1:
-                    A[i*n+j, i*n+j] += 2*epsilon
-                else:
-                    A[i*n+j, i*n+j] += 3*epsilon
-            else:
-                A[i*n+j, i*n+j] += 4*epsilon
-            if i > 0:
-                A[i*n+j, (i-1)*n+j] = -epsilon
-            if i < n-1:
-                A[i*n+j, (i+1)*n+j] = -epsilon
-            if j > 0:
-                A[i*n+j, i*n+j-1] = -epsilon
-            if j < n-1:
-                A[i*n+j, i*n+j+1] = -epsilon
-    return A 
-    
-    
-    
-    
-    return incidence_matrices
-
-def construct_incidence_matrix(mazes: list) -> list:
+def construct_incidence_matrix(mazes: list) -> list: #it really isn't an incidence matrix, just couldn't think of any other name 
     incidence_matrices = []
 
     for _, maze in enumerate(mazes):
@@ -86,7 +59,7 @@ def is_valid_point(matrix: list, row: int, col: int, visited: bool) -> bool:
     return True
 
 
-def bfs_shortest_path(matrix:list) -> list|int:
+def bfs_shortest_path(matrix:list) -> list|int: 
     n = len(matrix)
     start = (0,0)
     end=(n-1,n-1)
