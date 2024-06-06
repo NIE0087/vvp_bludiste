@@ -77,7 +77,7 @@ def bfs_shortest_path(matrix:list) -> list:
     dRow = [-1, 0, 1, 0]
     dCol = [0, 1, 0, -1]
     
-    queue = deque([(start, [start])])  # touple(cell(touple), path(list of touples))
+    queue = deque([(start, [start])])  # tuple(cell(tuple), path(list of tuples))
     visited[start[0]][start[1]] = True
 
     while queue:
