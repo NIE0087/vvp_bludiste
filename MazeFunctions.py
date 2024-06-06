@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 
 def load_mazes()-> list|int:
     
+    """function for loading mazes with true/false values from a file""" 
+    
     data_path = Path("./data/")
     maze_index = 1
     mazes = []
@@ -26,8 +28,10 @@ def load_mazes()-> list|int:
     return mazes, maze_index
 
 
-
 def construct_incidence_matrix(mazes: list) -> list: #it really isn't an incidence matrix, just couldn't think of any other name 
+   
+    """function for transforming bool matrices into int matrices, where false=0 and true=1"""
+    
     incidence_matrices = []
 
     for _, maze in enumerate(mazes):
@@ -46,6 +50,9 @@ def construct_incidence_matrix(mazes: list) -> list: #it really isn't an inciden
 
 
 def is_valid_point(matrix: list, row: int, col: int, visited: bool) -> bool:
+  
+    """function for checking validity of neighbours in BFS algorithm"""
+    
     rows, cols = len(matrix), len(matrix[0])
     
     # Check if the point is within the bounds of the matrix
@@ -59,7 +66,10 @@ def is_valid_point(matrix: list, row: int, col: int, visited: bool) -> bool:
     return True
 
 
-def bfs_shortest_path(matrix:list) -> list|int: 
+def bfs_shortest_path(matrix:list) -> list: 
+  
+    """function for finding shortest path in mazes and constructing the path"""
+  
     n = len(matrix)
     start = (0,0)
     end=(n-1,n-1)
@@ -71,7 +81,7 @@ def bfs_shortest_path(matrix:list) -> list|int:
     visited[start[0]][start[1]] = True
 
     while queue:
-        cell, path = queue.popleft()
+        cell, path = queue.popleft() #
         if cell == end:
             return path
 
@@ -85,14 +95,16 @@ def bfs_shortest_path(matrix:list) -> list|int:
                 visited[new_row][new_col] = True
                
                 new_path = path + [(new_row, new_col)]  # update the path
-                queue.append(((new_row, new_col), new_path))
+                queue.append(((new_row, new_col), new_path)) 
 
     return [] # If no path is found
 
 
 
 def plot_of_maze_and_path(maze: list, path: list, index: int) -> None:
-
+  
+    """function for rendering the mazes and paths in them"""
+  
     plt.imshow(maze, cmap='binary')
     plt.title(label=f"Maze {index}",loc='center')
     
@@ -105,6 +117,9 @@ def plot_of_maze_and_path(maze: list, path: list, index: int) -> None:
 
 
 def Maze_generator(maze: list) -> list|tuple:
+  
+    """function for generating maze (if it runs more times, it will generate maze with more barriers)"""
+ 
     n = len(maze)
     
     while True:
@@ -124,10 +139,12 @@ def Maze_generator(maze: list) -> list|tuple:
 
 
 def Maze_generator_helper(maze: list)-> list:
-    
-    maze, last_wall = Maze_generator(maze)
-    x, y = last_wall
-    maze[x][y] = 0
+   
+    """function which deletes last barrier added in function Maze_generator""" 
+    for i in range(5):
+        maze, last_wall = Maze_generator(maze)
+        x, y = last_wall
+        maze[x][y] = 0
     
     return maze
 
